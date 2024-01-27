@@ -1,0 +1,17 @@
+com.amazon.ata.debugging.subscribeandsave
+com.amazon.ata.debugging.subscribeandsave.dao
+com.amazon.ata.debugging.subscribeandsave.service
+com.amazon.ata.debugging.subscribeandsave.types
+com.amazon.ata.generics.recommender
+com.amazon.ata.generics.recommender.movie
+com.amazon.ata.generics.recommender.product
+com.amazon.ata.resources.debugging.classroom.dependencies
+com.amazon.ata.resources.designcomposition.fastgeometry
+com.amazon.ata.resources.lists.prework
+com.amazon.ata.resources.maps.gpmreminder.client
+com.amazon.ata.resources.maps.gpmreminder.model
+com.amazon.ata.resources.model
+com.amazon.ata.resources.statics.classroom.functionrunner.dependencies
+com.amazon.ata.retail
+com.amazon.stock
+com.banking.business.payroll.client
