@@ -3,6 +3,7 @@ package com.amazon.ata.generics.recommender.movie;
 import com.amazon.ata.generics.recommender.MostRecentlyUsed;
 import com.amazon.ata.generics.recommender.ReadOnlyDao;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -13,8 +14,9 @@ import java.util.Random;
  */
 public class PrimeVideoRecommender {
     // PARTICIPANT -- Update the generic types in PrimeVideoRecommender
-    private MostRecentlyUsed<?> mostRecentlyViewed;
-    private ReadOnlyDao<?, ?> primeVideoDao;
+    private MostRecentlyUsed<PrimeVideo> mostRecentlyViewed;
+    //List<PrimeVideo> primeVideoList = new ArrayList<>();
+    private ReadOnlyDao<Long, PrimeVideo> primeVideoDao;
     private Random random;
 
     /**
@@ -25,8 +27,8 @@ public class PrimeVideoRecommender {
      * @param random             the random
      */
     // PARTICIPANT -- Update the generic types in PrimeVideoRecommender
-    public PrimeVideoRecommender(MostRecentlyUsed<?> mostRecentlyViewed,
-                                 ReadOnlyDao<?, ?> primeVideoDao, Random random) {
+    public PrimeVideoRecommender(MostRecentlyUsed<PrimeVideo> mostRecentlyViewed,
+                                 ReadOnlyDao<Long, PrimeVideo> primeVideoDao, Random random) {
         this.mostRecentlyViewed = mostRecentlyViewed;
         this.primeVideoDao = primeVideoDao;
         this.random = random;
@@ -41,6 +43,11 @@ public class PrimeVideoRecommender {
      */
     public void watch(long videoId) {
         // PARTICIPANT -- Implement watch()
+        PrimeVideo primeVideo = primeVideoDao.get(videoId);
+        if (primeVideo == null) {
+            throw new IllegalArgumentException("Video not found for id " + videoId);
+        }
+        mostRecentlyViewed.add(primeVideo);
     }
 
     /**
@@ -57,6 +64,16 @@ public class PrimeVideoRecommender {
      */
     public PrimeVideo getRecommendation() {
         // PARTICIPANT -- Implement getRecommendation()
-        return null;
+        if (mostRecentlyViewed.getSize() == 0) {
+            return null;
+        }
+        int randomIndex = this.random.nextInt(mostRecentlyViewed.getSize());
+        PrimeVideo randomVideo = mostRecentlyViewed.get(randomIndex);
+        Long recommendedId = randomVideo.getMostSimilarId();
+        if (recommendedId == null) {
+            return null;
+        }
+        PrimeVideo recommendedVideo = primeVideoDao.get(recommendedId);
+        return recommendedVideo;
     }
 }
